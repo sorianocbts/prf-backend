@@ -1,0 +1,27 @@
+version: '3'
+services:
+  prf-backend:
+    container_name: prf-backend
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - NODE_ENV=${NODE_ENV}
+      - EMAIL=${EMAIL}
+      - TEMP_POST_PASS=${TEMP_POST_PASS}
+      - CURRENT_DOMAIN=${CURRENT_DOMAIN}
+      - PORT=${PORT}
+    restart: always
+    build: .
+    # ports:
+    #   - '80:5000'
+    expose:
+      - 80
+    restart: always
+#     volumes: ['./:/var/www/html']
+    environment:
+      VIRTUAL_HOST: prf.robertmsoriano.com, www.prf.robertmsoriano.com
+      LETSENCRYPT_HOST: prf.robertmsoriano.com, www.prf.robertmsoriano.com
+      LETSENCRYPT_EMAIL: robertomsoriano@hotmail.com
+networks:
+  default:
+    external:
+      name: nginx-proxy
