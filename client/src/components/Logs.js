@@ -68,7 +68,7 @@ const WithSuspense = () => {
     }
     const { get, data } = useFetch({ data: [] });
 
-    const loadData = async () => get(`/api/courses/confirm/`);
+    const loadData = async () => get(`api/courses/confirm/`);
     useEffect(() => {
         loadData()
         // eslint-disable-next-line
