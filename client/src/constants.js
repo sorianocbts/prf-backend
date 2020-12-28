@@ -1,0 +1,1 @@
+export const queryDomain = `http://prf.robertmsoriano.com`

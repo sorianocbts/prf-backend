@@ -19,6 +19,7 @@ import {
 import { Container, Input, Form, Row, Col, Button } from 'reactstrap';
 
 import useForm from '../helpers/useForm'
+import { queryDomain } from '../constants';
 
 const WithSuspense = () => {
     const [user, handleChange] = useForm({
@@ -68,12 +69,13 @@ const WithSuspense = () => {
     }
     const { get, data } = useFetch({ data: [] });
 
-    const loadData = async () => get(`api/courses/confirm/`);
+    const loadData = async () => get(`/api/courses/confirm/`);
     useEffect(() => {
         loadData()
         // eslint-disable-next-line
     }, [])
-    const logIn = () => {
+    const logIn = (e) => {
+        e.preventDefault()
         user.user === process.env.REACT_APP_USERNAME && user.passcode === process.env.REACT_APP_PASSCODE ? setLogged(true) : setLogged(false)
     }
     useEffect(() => {
@@ -84,10 +86,10 @@ const WithSuspense = () => {
             {!logged && (<Container style={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignSelf: "center", margin: '20px auto' }}>
                 <Row>
                     <Col xs="3">
-                        <Form>
+                        <Form onSubmit={(e) => logIn(e)}>
                             <Input type='text' placeholder={`Username`} name={`user`} value={user.user} onChange={handleChange} />
                             <Input type='password' placeholder={`Password`} name={`passcode`} value={user.passcode} onChange={handleChange} />
-                            <Button block sm={`true`} onClick={() => logIn()}>Login</Button>
+                            <Button block sm={`true`} onClick={(e) => logIn(e)}>Login</Button>
                         </Form>
                     </Col>
                 </Row>
@@ -124,7 +126,8 @@ const Logs = () => {
 
 
     return (
-        <Provider url={`${process.env.REACT_APP_PROXY}`}>
+        // <Provider url={`${process.env.REACT_APP_PROXY}`}>
+        <Provider url={queryDomain}>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center !important', alignContent: 'center !important' }}>
                 <div style={{ height: '800px', width: '100%' }}>
                     <Suspense fallback='Loading...'>

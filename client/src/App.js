@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './styles.css';
 import MyNav from './components/MyNav';
 import Logs from './components/Logs';
+import LoginTab from './components/LoginTab';
 
 
 const App = () => {
@@ -14,7 +15,7 @@ const App = () => {
           <Logs />
         </Route>
         <Route path="/about">
-          <Logs />
+          <LoginTab />
         </Route>
       </Switch>
     </Router>
