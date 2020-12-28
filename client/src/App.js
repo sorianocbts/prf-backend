@@ -14,9 +14,9 @@ const App = () => {
         <Route exact path="/">
           <Logs />
         </Route>
-        <Route path="/about">
+        {/* <Route path="/about">
           <LoginTab />
-        </Route>
+        </Route> */}
       </Switch>
     </Router>
   )
