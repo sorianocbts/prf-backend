@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require('path');
 const moment = require("moment")
 require("dotenv").config();
 
@@ -79,7 +80,7 @@ connectWithRetry();
 // Use Routes
 // app.use("/", require("./routes/index.js"));
 app.use("/api/courses", require("./routes/courses"));
-
+app.use("/api/send-notification", require("./routes/notifications"));
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
   // Set static folder
