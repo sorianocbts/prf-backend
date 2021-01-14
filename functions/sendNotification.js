@@ -12,7 +12,7 @@ function nodeNotification(event) {
     transporter.sendMail(
         {
             from: process.env.EMAIL,
-            to: [`${process.env.EMAIL}`],
+            to: [`${process.env.NOTIFICATIONS_EMAIL}`],
             subject: `Notification from ${event.service}`,
             html: `<p>${event.service} is down. Status code is: ${event.sCode} <br/></p>`
         },
