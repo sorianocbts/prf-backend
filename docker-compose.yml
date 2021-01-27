@@ -18,7 +18,7 @@ services:
     restart: always
 #     volumes: ['./:/var/www/html']
     environment:
-      VIRTUAL_HOST: prf.cbtseminary.com, 
+      VIRTUAL_HOST: prf.cbtseminary.com 
       LETSENCRYPT_HOST: prf.cbtseminary.com
       LETSENCRYPT_EMAIL: course.info@cbtseminary.org
 networks:
