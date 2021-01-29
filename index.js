@@ -81,6 +81,7 @@ connectWithRetry();
 // app.use("/", require("./routes/index.js"));
 app.use("/api/courses", require("./routes/courses"));
 app.use("/api/send-notification", require("./routes/notifications"));
+app.use("/api/ctfsub", require("./routes/ctfsub"));
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
   // Set static folder
