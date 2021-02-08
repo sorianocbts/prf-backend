@@ -6,7 +6,9 @@ import {
     SearchState,
     IntegratedFiltering,
     IntegratedSorting,
-    SortingState
+    SortingState,
+    PagingState,
+    IntegratedPaging,
 } from '@devexpress/dx-react-grid';
 import {
     Grid,
@@ -14,7 +16,9 @@ import {
     Toolbar,
     SearchPanel,
     TableHeaderRow,
-    TableColumnVisibility
+    TableColumnResizing,
+    TableColumnVisibility,
+    PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 import { Container, Input, Form, Row, Col, Button } from 'reactstrap';
 
@@ -41,18 +45,20 @@ const WithSuspense = () => {
         { name: 'dateSubmitted', title: 'Date' },
     ]);
     const [defaultHiddenColumnNames] = useState(["id"]);
-    // const [defaultColumnWidths] = useState([
-    //     { columnName: 'id', width: 180 },
-    //     { columnName: 'studentFirst', width: 180 },
-    //     { columnName: 'Last name', width: 120 },
-    //     { columnName: 'First name', width: 90 },
-    //     { columnName: 'ProctorName', width: 90, },
-    //     { columnName: 'Proctor Email', width: 220, },
-    //     { columnName: 'Class', width: 90, },
-    //     { columnName: 'Test/Quiz', width: 90, },
-    //     { columnName: 'Confirmed', width: 90 },
-    //     { columnName: 'Status', width: 180 },
-    // ]);
+    const [defaultColumnWidths] = useState([
+        { columnName: 'id', width: 180 },
+        { columnName: 'studentLast', width: 250 },
+        { columnName: 'studentFirst', width: 120 },
+        { columnName: 'studentEmail', width: 240 },
+        { columnName: 'proctorName', width: 180, },
+        { columnName: 'proctorEmail', width: 240, },
+        { columnName: 'classCodeSelected', width: 90, },
+        { columnName: 'testNumberSelected', width: 90, },
+        { columnName: 'confirmed', width: 90 },
+        { columnName: 'dateConfirmed', width: 220 },
+        { columnName: 'dateSubmitted', width: 220 },
+    ]);
+    const [pageSizes] = useState([25, 50, 75, 0]);
     const tranformData = (data) => {
         return data.map(x => Object.assign({
             id: x._id,
@@ -81,6 +87,20 @@ const WithSuspense = () => {
     useEffect(() => {
         // eslint-disable-next-line
     }, [user])
+    useEffect(() => {
+        const listener = event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                console.log("Enter key was pressed. Run your function.");
+                logIn(event)
+                return
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
+        // eslint-disable-next-line
+    }, []);
     return (
         <>
             {!logged && (<Container style={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignSelf: "center", margin: '20px auto' }}>
@@ -99,13 +119,19 @@ const WithSuspense = () => {
                     <Button block sm={`true`} onClick={() => setLogged(false)}>Logout</Button>
                     <Paper>
                         <Grid rows={tranformData(data)} columns={columns}>
+                            <PagingState
+                                defaultCurrentPage={0}
+                                defaultPageSize={25}
+                            />
                             <SearchState defaultValue="" />
                             <IntegratedFiltering />
                             <SortingState
                                 defaultSorting={[{ columnName: 'id', direction: 'desc' }]}
                             />
                             <IntegratedSorting />
+                            <IntegratedPaging />
                             <Table />
+                            <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
                             <TableHeaderRow showSortingControls />
                             <TableColumnVisibility
                                 defaultHiddenColumnNames={defaultHiddenColumnNames}
@@ -113,6 +139,9 @@ const WithSuspense = () => {
 
                             <Toolbar />
                             <SearchPanel />
+                            <PagingPanel
+                                pageSizes={pageSizes}
+                            />
                         </Grid>
                     </Paper>
                 </>
