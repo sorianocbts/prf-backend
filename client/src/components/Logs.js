@@ -84,14 +84,14 @@ const WithSuspense = () => {
         e.preventDefault()
         user.user === process.env.REACT_APP_USERNAME && user.passcode === process.env.REACT_APP_PASSCODE ? setLogged(true) : setLogged(false)
     }
+
     useEffect(() => {
         // eslint-disable-next-line
     }, [user])
     useEffect(() => {
         const listener = event => {
             if (event.code === "Enter" || event.code === "NumpadEnter") {
-                console.log("Enter key was pressed. Run your function.");
-                logIn(event)
+                logIn(event);
                 return
             }
         };
@@ -99,7 +99,7 @@ const WithSuspense = () => {
         return () => {
             document.removeEventListener("keydown", listener);
         };
-        // eslint-disable-next-line
+
     }, []);
     return (
         <>
