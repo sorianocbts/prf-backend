@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
+import axios from 'axios'
 import { useFetch, Provider } from "use-http";
 import { withRouter } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +10,7 @@ import {
     SortingState,
     PagingState,
     IntegratedPaging,
+    SelectionState,
 } from '@devexpress/dx-react-grid';
 import {
     Grid,
@@ -19,6 +21,7 @@ import {
     TableColumnResizing,
     TableColumnVisibility,
     PagingPanel,
+    TableSelection,
 } from '@devexpress/dx-react-grid-material-ui';
 import { Container, Input, Form, Row, Col, Button } from 'reactstrap';
 
@@ -99,8 +102,25 @@ const WithSuspense = () => {
         return () => {
             document.removeEventListener("keydown", listener);
         };
-
+        // eslint-disable-next-line
     }, []);
+    const [selection, setSelection] = useState([]);
+    console.log(selection)
+    const _proctorConfirmation = () => {
+        // Do it for the whole selection array. 
+        for (let selected in selection) {
+            console.log(selected)
+            let ID = tranformData(data)[selected].id
+            axios(`${queryDomain}/api/courses/confirm/${ID}`).then(x => {
+                alert(x.data)
+            })
+        }
+        setSelection([])
+        return
+    }
+    useEffect(() => {
+        // eslint-disable-next-line
+    }, [user])
     return (
         <>
             {!logged && (<Container style={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignSelf: "center", margin: '20px auto' }}>
@@ -117,8 +137,13 @@ const WithSuspense = () => {
             {logged && data.length > 0 && (
                 <>
                     <Button block sm={`true`} onClick={() => setLogged(false)}>Logout</Button>
+                    {selection.length > 0 && (<Button className={`mt-4`} sm={`true`} onClick={() => _proctorConfirmation()}>Confirm</Button>)}
                     <Paper>
                         <Grid rows={tranformData(data)} columns={columns}>
+                            <SelectionState
+                                selection={selection}
+                                onSelectionChange={setSelection}
+                            />
                             <PagingState
                                 defaultCurrentPage={0}
                                 defaultPageSize={25}
@@ -133,6 +158,10 @@ const WithSuspense = () => {
                             <Table />
                             <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
                             <TableHeaderRow showSortingControls />
+
+                            <TableSelection
+                                selectByRowClick
+                            />
                             <TableColumnVisibility
                                 defaultHiddenColumnNames={defaultHiddenColumnNames}
                             />

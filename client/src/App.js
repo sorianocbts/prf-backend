@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './styles.css';
 import MyNav from './components/MyNav';
 import Logs from './components/Logs';
-import LoginTab from './components/LoginTab';
+// import LoginTab from './components/LoginTab';
 
 
 const App = () => {
