@@ -1,1 +1,1 @@
-export const queryDomain = `https://prf.cbtseminary.com`
+export const queryDomain = `https://prfbackend.cbtseminary.com`
