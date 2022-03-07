@@ -89,14 +89,9 @@ function nodeSend(event, result, sub) {
       <p style="font-size: 20px;">After the student has completed the ${event.classCodeSelected}/${event.testNumberSelected}, please confirm the following:</p>
       <p style="font-style: italic;"><strong>I confirm that ${event.studentFirst} ${event.studentLast} has taken ${event.classCodeSelected}/${event.testNumberSelected} without the use of a Bible, books, notes, or any other aids.</strong></p>
      
-      <div><!--[if mso]>
-      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.CURRENT_Domain}:${process.env.PORT}/api/courses/confirm/${sub._id}" style="height:30px;v-text-anchor:middle;width:100px;" arcsize="14%" strokecolor="#1e3650" fillcolor="#0d6cbf">
-        <w:anchorlock/>
-        <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">Confirm</center>
-      </v:roundrect>
-    <![endif]--><a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#0d6cbf;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:30px;text-align:center;text-decoration:none;width:100px;-webkit-text-size-adjust:none;mso-hide:all;">Confirm</a></div>
-
-      ${signature}
+      
+    <div><a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#0d6cbf;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:30px;text-align:center;text-decoration:none;width:100px;-webkit-text-size-adjust:none;mso-hide:all;">CLICK HERE TO CONFIRM</a></div>
+    
       `
         },
         function (error, info) {
@@ -110,3 +105,13 @@ function nodeSend(event, result, sub) {
 }
 
 module.exports = nodeSend;
+
+{/* <div><!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${process.env.CURRENT_Domain}:${process.env.PORT}/api/courses/confirm/${sub._id}" style="height:30px;v-text-anchor:middle;width:100px;" arcsize="14%" strokecolor="#1e3650" fillcolor="#0d6cbf">
+        <w:anchorlock/>
+        <center style="color:#ffffff;font-family:sans-serif;font-size:13px;font-weight:bold;">Confirm</center>
+      </v:roundrect>
+    <![endif]--><a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#0d6cbf;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:30px;text-align:center;text-decoration:none;width:100px;-webkit-text-size-adjust:none;mso-hide:all;">Confirm</a></div> */}
+
+
+//   ${signature}
