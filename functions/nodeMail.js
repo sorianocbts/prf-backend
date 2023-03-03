@@ -37,7 +37,7 @@ var signature = `<p><br></p>
                                             </tbody>
                                         </table>
                                     </td>
-                                    <td style="padding:0px;"><a href="mailto:bigham@cbtseminary.org" target="_blank">info<span style="font-size:12px;">@cbtseminary.org</span></a></td>
+                                    <td style="padding:0px;"><a href="mailto:course.info@cbtseminary.org" target="_blank">course.info<span style="font-size:12px;">@cbtseminary.org</span></a></td>
                                 </tr>
                                 <tr>
                                     <td style="vertical-align:middle;">
@@ -56,7 +56,7 @@ var signature = `<p><br></p>
                                             </tbody>
                                         </table>
                                     </td>
-                                    <td style="padding:0px;"><span color="#000000" style="font-size:12px;color:rgb(0,0,0);">1501 E 26th St, Owensboro, KY 42303</span></td>
+                                    <td style="padding:0px;"><span color="#000000" style="font-size:12px;color:rgb(0,0,0);">800 Chuck Gray Ct, Owensboro, KY 42303</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -89,7 +89,7 @@ function nodeSend(event, result, sub) {
       <p style="font-style: italic;"><strong>I confirm that ${event.studentFirst} ${event.studentLast} has taken ${event.classCodeSelected}/${event.testNumberSelected} without the use of a Bible, books, notes, or any other aids.</strong></p>
      
       
-    <div><a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#0d6cbf;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:30px;text-align:center;text-decoration:none;width:100px;-webkit-text-size-adjust:none;mso-hide:all;">CLICK HERE TO CONFIRM</a></div>
+    <div><a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#3a3b39;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">CLICK HERE TO CONFIRM</a></div>
    
     ${signature}
       `
