@@ -68,7 +68,25 @@ router.get("/confirm/:submissionID", function (req, res, next) {
     if (err) {
       console.log(err);
     } else {
-      res.send(`Thank you! Your confirmation has been processed.`)
+      res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Confirmation</title>
+          <style>
+            body {
+              font-size: 24px; /* Larger font size */
+              font-family: Arial, sans-serif; /* Optional: improves readability */
+            }
+          </style>
+        </head>
+        <body>
+          <p>Thank you! Your confirmation has been processed.</p>
+        </body>
+        </html>
+      `);
     }
   })
 
