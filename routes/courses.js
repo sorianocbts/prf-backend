@@ -69,48 +69,48 @@ router.get("/confirm/:submissionID", function (req, res, next) {
       console.log(err);
     } else {
       res.send(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Confirmation</title>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-        <style>
-          body {
-            margin: 0;
-            padding: 40px;
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-          }
-          .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-          }
-          h1 {
-            color: #333;
-          }
-          p {
-            color: #555;
-            font-size: 18px;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>Thank You!</h1>
-          <p>Your confirmation has been processed successfully.</p>
-        </div>
-      </body>
-      </html>
-    `);
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>CBTS Proctor Confirmation</title>
+          <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+          <style>
+            body {
+              margin: 0;
+              padding: 40px;
+              font-family: 'Libre Baskerville', serif;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+              background-color: #f0f0f0;
+            }
+            .container {
+              background: white;
+              padding: 20px;
+              border-radius: 10px;
+              box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+              text-align: center;
+            }
+            h1 {
+              color: #333;
+            }
+            p {
+              color: #555;
+              font-size: 18px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>Thank You!</h1>
+            <p>Your confirmation has been processed successfully.</p>
+          </div>
+        </body>
+        </html>
+      `);
     }
   })
 
