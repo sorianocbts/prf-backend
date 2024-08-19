@@ -106,7 +106,7 @@ router.get("/confirm/:submissionID", function (req, res, next) {
         <body>
           <div class="container">
             <h1>Thank You!</h1>
-            <p>Your confirmation has been processed successfully.</p>
+            <p>Your CBTS Proctor confirmation has been processed successfully.</p>
           </div>
         </body>
         </html>

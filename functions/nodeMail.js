@@ -78,19 +78,36 @@ var transporter = nodemailer.createTransport({
 });
 
 function nodeSend(event, result, sub) {
+   
+    if (event.formLanguage === "es") {
+        message = `<p>Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}.</p>
+        <p>La contraseña necesaria para ${event.classCodeSelected}, prueba ${event.testNumberSelected}, es: <span style="font-size: 24px;">${result}</span>.</p>
+        <p style="font-size: 20px;">Después de que el estudiante haya completado ${event.classCodeSelected}/${event.testNumberSelected}, confirme lo siguiente:</p>
+        <p style="font-style: italic;"><strong>Confirmo que ${event.studentFirst} ${event.studentLast} ha realizado ${event.classCodeSelected}/${event.testNumberSelected} sin el uso de una Biblia, libros, notas u otras ayudas.</strong></p>
+        <div style="margin-top: 20px;">
+            <a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#3a3b39;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">
+                HAGA CLIC AQUÍ PARA CONFIRMAR
+            </a>
+        </div>`;
+    } else {
+        message = `<p>Thank you for serving as the proctor for ${event.studentFirst} ${event.studentLast}.</p>
+        <p>The password for ${event.classCodeSelected}, Test ${event.testNumberSelected}, is: <span style="font-size: 24px;">${result}</span>.</p>
+        <p style="font-size: 20px;">After the student has completed ${event.classCodeSelected}/${event.testNumberSelected}, please confirm the following:</p>
+        <p style="font-style: italic;"><strong>I confirm that ${event.studentFirst} ${event.studentLast} has taken ${event.classCodeSelected}/${event.testNumberSelected} without the use of a Bible, books, notes, or any other aids.</strong></p>
+        <div style="margin-top: 20px;">
+            <a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#3a3b39;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">
+                CLICK HERE TO CONFIRM
+            </a>
+        </div>`;
+    }
+
     transporter.sendMail(
         {
             from: process.env.EMAIL,
             to: `${event.proctorEmail}`,
             subject: `Password for ${event.studentFirst} ${event.studentLast}`,
-            html: `<p>Thank you for serving as proctor for ${event.studentFirst} ${event.studentLast} <br/>
-      The password needed for ${event.classCodeSelected}, ${event.testNumberSelected} is: <span style="font-size: 24px;">${result}</span>.</p><br/>
-      <p style="font-size: 20px;">After the student has completed the ${event.classCodeSelected}/${event.testNumberSelected}, please confirm the following:</p>
-      <p style="font-style: italic;"><strong>I confirm that ${event.studentFirst} ${event.studentLast} has taken ${event.classCodeSelected}/${event.testNumberSelected} without the use of a Bible, books, notes, or any other aids.</strong></p>
-     
-      
-    <div><a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#3a3b39;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">CLICK HERE TO CONFIRM</a></div>
-   
+            html: `${message}
+
     ${signature}
       `
         },
