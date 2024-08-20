@@ -78,7 +78,7 @@ var transporter = nodemailer.createTransport({
 });
 
 function nodeSend(event, result, sub) {
-    console.log(formLanguage)
+    console.log(event.formLanguage)
 
     if (event.formLanguage === "es") {
         message = `<p style="font-size: 16px;">Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}.</p>
