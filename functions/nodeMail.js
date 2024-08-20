@@ -78,12 +78,12 @@ var transporter = nodemailer.createTransport({
 });
 
 function nodeSend(event, result, sub) {
-    console.log(event.formLanguage)
 
     if (event.formLanguage === "es") {
-        message = `<p style="font-size: 16px;">Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}.</p>
-        <p style="font-size: 16px;">La contraseña necesaria para ${event.classCodeSelected}, prueba ${event.testNumberSelected}, es: <span style="font-size: 24px;">${result}</span>.</p>
-        <p style="font-size: 20px;">Después de que el estudiante haya completado ${event.classCodeSelected}/${event.testNumberSelected}, confirme lo siguiente:</p>
+        message = `
+        <p style="font-size: 16px;">Estimado/a ${event.proctorName},</p>
+        <p style="font-size: 16px;">Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}. La contraseña necesaria para ${event.classCodeSelected}, prueba ${event.testNumberSelected}, es: <span style="font-size: 24px;">${result}</span>.</p>
+        <p style="font-size: 16px;">Después de que el estudiante haya completado ${event.classCodeSelected}/${event.testNumberSelected}, confirme lo siguiente:</p>
         <p style="font-style: italic;"><strong>Confirmo que ${event.studentFirst} ${event.studentLast} ha realizado ${event.classCodeSelected}/${event.testNumberSelected} sin el uso de una Biblia, libros, notas u otras ayudas.</strong></p>
         <div style="margin-top: 20px;">
             <a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#3a3b39;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">
@@ -91,9 +91,10 @@ function nodeSend(event, result, sub) {
             </a>
         </div>`;
     } else {
-        message = `<p style="font-size: 16px;">Thank you for serving as the proctor for ${event.studentFirst} ${event.studentLast}.</p>
-        <p style="font-size: 16px;">The password for ${event.classCodeSelected}, Test ${event.testNumberSelected}, is: <span style="font-size: 24px;">${result}</span>.</p>
-        <p style="font-size: 20px;">After the student has completed ${event.classCodeSelected}/${event.testNumberSelected}, please confirm the following:</p>
+        message = `
+        <p style="font-size: 16px;">Dear ${event.proctorName},</p>
+        <p style="font-size: 16px;">Thank you for serving as the proctor for ${event.studentFirst} ${event.studentLast}. The password for ${event.classCodeSelected}, Test ${event.testNumberSelected}, is: <span style="font-size: 24px;">${result}</span>.</p>
+        <p style="font-size: 16px;">After the student has completed ${event.classCodeSelected}/${event.testNumberSelected}, please confirm the following:</p>
         <p style="font-style: italic;"><strong>I confirm that ${event.studentFirst} ${event.studentLast} has taken ${event.classCodeSelected}/${event.testNumberSelected} without the use of a Bible, books, notes, or any other aids.</strong></p>
         <div style="margin-top: 20px;">
             <a href="${process.env.CURRENT_DOMAIN}/api/courses/confirm/${sub._id}" style="background-color:#3a3b39;border:1px solid #1e3650;border-radius:4px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;mso-hide:all;">
@@ -106,7 +107,7 @@ function nodeSend(event, result, sub) {
         {
             from: process.env.EMAIL,
             to: `${event.proctorEmail}`,
-            subject: `Password for ${event.studentFirst} ${event.studentLast}`,
+            subject: event.formLanguage === "es" ? `Contraseña para ${event.studentFirst} ${event.studentLast}` : `Password for ${event.studentFirst} ${event.studentLast}`,
             html: `${message}
 
     ${signature}
