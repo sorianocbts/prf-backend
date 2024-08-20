@@ -78,9 +78,9 @@ var transporter = nodemailer.createTransport({
 });
 
 function nodeSend(event, result, sub) {
-   
+    console.log(formLanguage)
+
     if (event.formLanguage === "es") {
-        console.log(formLanguage)
         message = `<p style="font-size: 16px;">Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}.</p>
         <p style="font-size: 16px;">La contraseña necesaria para ${event.classCodeSelected}, prueba ${event.testNumberSelected}, es: <span style="font-size: 24px;">${result}</span>.</p>
         <p style="font-size: 20px;">Después de que el estudiante haya completado ${event.classCodeSelected}/${event.testNumberSelected}, confirme lo siguiente:</p>
