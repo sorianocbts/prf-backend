@@ -82,7 +82,7 @@ function nodeSend(event, result, sub) {
     if (event.formLanguage === "es") {
         message = `
         <p style="font-size: 16px;">Estimado/a ${event.proctorName},</p>
-        <p style="font-size: 16px;">Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}. La contraseña necesaria para ${event.classCodeSelected}, prueba ${event.testNumberSelected}, es: <span style="font-size: 24px;">${result}</span>.</p>
+        <p style="font-size: 16px;">Gracias por servir como supervisor de ${event.studentFirst} ${event.studentLast}. La contraseña necesaria para ${event.classCodeSelected}, prueba ${event.testNumberSelected}, es: <p><span style="font-size: 24px;">${result}</span></p></p>
         <p style="font-size: 16px;">Después de que el estudiante haya completado ${event.classCodeSelected}/${event.testNumberSelected}, confirme lo siguiente:</p>
         <p style="font-style: italic;"><strong>Confirmo que ${event.studentFirst} ${event.studentLast} ha realizado ${event.classCodeSelected}/${event.testNumberSelected} sin el uso de una Biblia, libros, notas u otras ayudas.</strong></p>
         <div style="margin-top: 20px;">
