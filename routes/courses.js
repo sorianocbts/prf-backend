@@ -130,7 +130,7 @@ router.get("/confirm", function (req, res, next) {
 
 // CBTS HUB
 
-// @route   POST api/courses/prf
+// @route   POST api/courses/hub
 // @desc    POST PRF
 // @access  Public !!!TODO
 router.post("/hub", function (req, res, next) {
