@@ -152,7 +152,7 @@ router.post("/hub", function (req, res, next) {
         console.log(err);
       }
       // nodeSend(req.body, x[0].testPassword, submission);
-      res.json({ msg: `success` });
+      res.json({ "submission_id":submission._id });
     });
   });
 
