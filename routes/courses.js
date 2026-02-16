@@ -128,5 +128,36 @@ router.get("/confirm", function (req, res, next) {
 
 
 
+// CBTS HUB
+
+// @route   POST api/courses/prf
+// @desc    POST PRF
+// @access  Public !!!TODO
+router.post("/hub", function (req, res, next) {
+  // if (req.body.pass === process.env.TEMP_POST_PASS) {
+  console.log(`PRF at ${moment().format('MMMM Do YYYY, h:mm:ss a')}`)
+  Course.find({
+    courseName: req.body.classCodeSelected,
+    testName: req.body.testNumberSelected
+  }).then((x) => {
+    var submission = new FormLog({
+      dateSubmitted: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      formSubmitted: {
+        submission: req.body,
+        passcodeSent: x[0].testPassword
+      }
+    });
+    submission.save((err) => {
+      if (err) {
+        console.log(err);
+      }
+      // nodeSend(req.body, x[0].testPassword, submission);
+      res.json({ msg: `success` });
+    });
+  });
+
+  // }
+});
+
 
 module.exports = router;
