@@ -161,7 +161,7 @@ router.get("/confirm", function (req, res, next) {
 
 
 // @route   POST api/courses/hub
-// @desc    POST PRF
+// @desc    POST PRF (accept payload, validate, record)
 // @access  Public (you should still add auth/secret)
 router.post('/hub', async function (req, res) {
   try {
@@ -169,56 +169,80 @@ router.post('/hub', async function (req, res) {
 
     const body = req.body || {};
 
-    // Existing fields (what your Hub currently sends)
+    // Existing fields (legacy)
     const classCodeSelected = String(body.classCodeSelected || '').trim();
+
+    // Existing field (required)
     const testNumberSelected = String(body.testNumberSelected || '').trim();
 
     // Optional new fields (Option B)
-    const courseCode = String(body.courseCode || '').trim().toUpperCase(); // e.g. BI13
+    const courseCode = String(body.courseCode || '').trim().toUpperCase();
     const courseYearRaw = body.courseYear;
-    const courseYear =
-      courseYearRaw == null || courseYearRaw === '' ? null : Number(courseYearRaw);
 
+    const courseYear =
+      courseYearRaw == null || courseYearRaw === ''
+        ? null
+        : Number(courseYearRaw);
+
+    // --- Required checks ---
     if (!testNumberSelected) {
       return res.status(400).json({ error: 'Missing testNumberSelected' });
     }
 
     // You must have either classCodeSelected OR courseCode
     if (!classCodeSelected && !courseCode) {
-      return res.status(400).json({ error: 'Missing classCodeSelected (or courseCode)' });
+      return res
+        .status(400)
+        .json({ error: 'Missing classCodeSelected (or courseCode)' });
     }
+
+    // --- Format/type validation (course info only) ---
+    // Validate year if present
     if (courseYearRaw != null && courseYearRaw !== '' && Number.isNaN(courseYear)) {
       return res.status(400).json({ error: 'Invalid courseYear' });
     }
-
-    // Build query:
-    // 1) Prefer exact legacy match if provided (keeps backward compatibility)
-    // 2) Otherwise, match Option B fields
-    const query = classCodeSelected
-      ? { courseName: classCodeSelected, testName: testNumberSelected }
-      : { courseCode, courseYear, testName: testNumberSelected };
-
-    // Use findOne (you only need one password)
-    const courseDoc = await Course.findOne(query).lean();
-
-    if (!courseDoc || !courseDoc.testPassword) {
-      // Do NOT crash; return 404 with useful info
-      return res.status(404).json({
-        error: 'Course/test not found',
-        details: {
-          classCodeSelected: classCodeSelected || null,
-          courseCode: courseCode || null,
-          courseYear: courseYear ?? null,
-          testNumberSelected,
-        },
-      });
+    if (courseYear != null) {
+      const yearInt = Math.trunc(courseYear);
+      // adjust bounds to your domain
+      if (!Number.isFinite(courseYear) || courseYear !== yearInt) {
+        return res.status(400).json({ error: 'courseYear must be an integer' });
+      }
+      if (yearInt < 1990 || yearInt > 2100) {
+        return res.status(400).json({ error: 'courseYear out of range' });
+      }
     }
+
+    // Optional: validate courseCode format if present (example: BI13, CS101, etc.)
+    // Pick a regex that matches YOUR real codes.
+    if (courseCode) {
+      const COURSE_CODE_RE = /^[A-Z]{2,6}\d{1,4}$/; // example only
+      if (!COURSE_CODE_RE.test(courseCode)) {
+        return res.status(400).json({ error: 'Invalid courseCode format' });
+      }
+    }
+
+    // Optional: validate testNumberSelected format (example only)
+    // If it's numeric or like "Test 1", enforce whatever you want here.
+    // const TEST_RE = /^[A-Za-z0-9 _-]{1,32}$/;
+    // if (!TEST_RE.test(testNumberSelected)) ...
+
+    // --- Normalized courseInfo (consistent storage) ---
+    const courseInfo = {
+      // legacy field (if they used it)
+      classCodeSelected: classCodeSelected || null,
+      // option B fields (if they used them)
+      courseCode: courseCode || null,
+      courseYear: courseYear ?? null,
+      // always present
+      testNumberSelected,
+    };
 
     const submission = new FormLog({
       dateSubmitted: moment().format('MMMM Do YYYY, h:mm:ss a'),
       formSubmitted: {
-        submission: body,
-        passcodeSent: courseDoc.testPassword,
+        submission: body,       // raw payload exactly as received
+        courseInfo,             // normalized + validated subset
+        // passcodeSent: null,   // keep field if schema expects it; otherwise omit
       },
     });
 
@@ -230,6 +254,7 @@ router.post('/hub', async function (req, res) {
     return res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 
 
